@@ -10,7 +10,8 @@ class Board extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            squares: Array(TOTAL_SQUARE).fill(null)
+            squares: Array(TOTAL_SQUARE).fill(null),
+            xIsNext: true
         }
         this.renderSquare = this.renderSquare.bind(this);
         this.renderBoard = this.renderBoard.bind(this);
@@ -18,18 +19,21 @@ class Board extends React.Component {
     }
     handleClick(i){
         const squares = this.state.squares.slice();
-        squares[i] = 'X';
-        this.setState({squares: squares});
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext
+        });
     }
     renderSquare(i){
-        return <Square value={this.state.squares[i]} onClick={(i) => this.handleClick(i)}/>
+        return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>
     }
     renderBoard(){
         let board = [];
-        for(let i=0; i<INITIAL_VERTICAL_RANGE; i++){
+        for(let i=1; i<=INITIAL_VERTICAL_RANGE; i++){
             let row = [];           
-            for(let j=0; j<INITIAL_HORIZONTAL_RANGE; j++){
-                row.push(this.renderSquare(j));
+            for(let j=1; j<=INITIAL_HORIZONTAL_RANGE; j++){
+                row.push(this.renderSquare(INITIAL_HORIZONTAL_RANGE*i + j));
             }
             let rowWrapper = <div className="board-row">{row}</div>;
             board.push(rowWrapper);
@@ -39,7 +43,7 @@ class Board extends React.Component {
         )
     }
     render(){
-        const status = 'Next player: X';
+        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         return(
             <div>
                 <h1>Board</h1>
