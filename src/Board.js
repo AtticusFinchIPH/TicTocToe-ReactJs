@@ -4,15 +4,25 @@ import "./Board.css"
 
 const INITIAL_VERTICAL_RANGE = 3;
 const INITIAL_HORIZONTAL_RANGE = 3;
+const TOTAL_SQUARE = INITIAL_VERTICAL_RANGE * INITIAL_HORIZONTAL_RANGE;
 
 class Board extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            squares: Array(TOTAL_SQUARE).fill(null)
+        }
         this.renderSquare = this.renderSquare.bind(this);
         this.renderBoard = this.renderBoard.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick(i){
+        const squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({squares: squares});
     }
     renderSquare(i){
-        return <Square value={i}/>
+        return <Square value={this.state.squares[i]} onClick={(i) => this.handleClick(i)}/>
     }
     renderBoard(){
         let board = [];
