@@ -1,22 +1,21 @@
 import React from 'react'
+import CommonVar from './CommonVar';
 import Square from './Square';
 import "./Board.css"
-
-const INITIAL_VERTICAL_RANGE = 3;
-const INITIAL_HORIZONTAL_RANGE = 3;
-const TOTAL_SQUARE = INITIAL_VERTICAL_RANGE * INITIAL_HORIZONTAL_RANGE;
 
 class Board extends React.Component {
     constructor(props){
         super(props);
+        this.common = new CommonVar();
         this.state = {
-            squares: Array(TOTAL_SQUARE).fill(null),
+            squares: Array(this.common.TOTAL_SQUARE).fill(null),
             xIsNext: true
         }
         this.renderSquare = this.renderSquare.bind(this);
         this.renderBoard = this.renderBoard.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
+    
     handleClick(i){
         const squares = this.state.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
@@ -33,10 +32,10 @@ class Board extends React.Component {
     }
     renderBoard(){
         let board = [];
-        for(let i=0; i<INITIAL_VERTICAL_RANGE; i++){
+        for(let i=0; i<this.common.INITIAL_VERTICAL_RANGE; i++){
             let row = [];           
-            for(let j=0; j<INITIAL_HORIZONTAL_RANGE; j++){
-                row.push(this.renderSquare(INITIAL_HORIZONTAL_RANGE*i + j));
+            for(let j=0; j<this.common.INITIAL_HORIZONTAL_RANGE; j++){
+                row.push(this.renderSquare(this.common.INITIAL_HORIZONTAL_RANGE*i + j));
             }
             let rowWrapper = <div className="board-row">{row}</div>;
             board.push(rowWrapper);
