@@ -15,6 +15,7 @@ class Game extends React.Component {
         };
         this.handleClick = this.handleClick.bind(this);
         this.jumpTo = this.jumpTo.bind(this);
+        this.restart = this.restart.bind(this);
     }
     handleClick(i){
         const history = this.state.history;
@@ -36,6 +37,15 @@ class Game extends React.Component {
         this.setState({
             stepNumber: step,
             xIsNext: step % 2 === 0
+        })
+    }
+    restart(){
+        this.setState({
+            history: [{
+                squares: Array(this.common.TOTAL_SQUARE).fill(null)
+            }],
+            stepNumber: 0,
+            xIsNext: true
         })
     }
     render(){
@@ -67,6 +77,9 @@ class Game extends React.Component {
                 <div className="game-info">
                     <div>{status}</div>
                     <ol>{move}</ol>
+                </div>
+                <div>
+                    <button onClick={this.restart} style={{minWidth: '100px', borderRadius: '8px'}}>Restart</button>
                 </div>
             </div>
         )
